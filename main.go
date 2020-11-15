@@ -9,11 +9,11 @@ import (
 )
 
 var (
-	conf       config
+	conf       Config
 	configfile = "MinecraftData" + "/config.portable.json"
 )
 
-type config struct {
+type Config struct {
 	Launcher string `json:"launcher"`
 	Java     bool   `json:"java"`
 }
@@ -55,7 +55,7 @@ func readjson() (string, bool) {
 		createConfig()
 	}
 	fmt.Println(str)
-	err = json.Unmarshal([]byte(str), &config)
+	err = json.Unmarshal([]byte(str), &conf)
 
-	return config.Launcher, config.Java
+	return conf.Launcher, conf.Java
 }
