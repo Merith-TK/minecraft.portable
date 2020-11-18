@@ -41,21 +41,21 @@ func main() {
 
 }
 
-func createConfig() {
+func createConfig() (string, bool) {
 	dlgs.Warning("[MineCraftPortable]", "This application takes a bit to work on the first run, please be patient")
 	file, _ := os.Create(configfile)
 	defer file.Close()
 
 	_, _ = io.WriteString(file, `{"launcher":"minecraft.exe","java":false}`)
 	file.Sync()
-	main()
+	return readjson()
 }
 
 func readjson() (string, bool) {
 	str, err := ioutil.ReadFile(configfile)
 	if err != nil {
 		fmt.Println("Creating Config")
-		createConfig()
+		return createConfig()
 	}
 	err = json.Unmarshal([]byte(str), &conf)
 
