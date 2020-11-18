@@ -18,6 +18,7 @@ var (
 type config struct {
 	Launcher string `json:"launcher"`
 	Java     bool   `json:"java"`
+	Args     string `json:"args"`
 }
 
 func main() {
@@ -25,7 +26,7 @@ func main() {
 		os.Mkdir("MinecraftData", 755)
 	}
 
-	os.Setenv("MinecraftData", "./")
+	os.Setenv("APPDATA", "./")
 	os.Setenv("HOME", "./")
 	launcher, java := readjson()
 
@@ -33,7 +34,7 @@ func main() {
 		if launcher == "minecraft.exe" {
 			minecraftexe()
 		} else {
-			unknownexe(launcher)
+			unknownexe(launcher, conf.Args)
 		}
 	} else {
 		javaexe(launcher)
@@ -46,7 +47,7 @@ func createConfig() (string, bool) {
 	file, _ := os.Create(configfile)
 	defer file.Close()
 
-	_, _ = io.WriteString(file, `{"launcher":"minecraft.exe","java":false}`)
+	_, _ = io.WriteString(file, `{"launcher":"minecraft.exe","java":false,"args":""}`)
 	file.Sync()
 	return readjson()
 }

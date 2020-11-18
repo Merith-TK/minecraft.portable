@@ -25,7 +25,7 @@ func minecraftexe() {
 	cmd.Run()
 }
 
-func unknownexe(execute string) {
+func unknownexe(execute string, args string) {
 	filecheck(execute)
 	if _, err := os.Stat("MinecraftData/" + execute); err != nil {
 		dlgs.Error("[MineCraftPortable]: ERROR", execute+" not found, did you edit config.portable.json?")
