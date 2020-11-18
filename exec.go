@@ -14,13 +14,6 @@ import (
 
 */
 
-var (
-	exeMinecraft = "https://launcher.mojang.com/download/Minecraft.exe"
-
-	// More Reliable link to the jar...
-	jarMinecraft = "https://cdn.merith.tk/_Releases/Other/OfficialMinecraft.jar"
-)
-
 func minecraftexe() {
 	filecheck("minecraft.exe")
 	cmd := exec.Command("MinecraftData/minecraft.exe", "--workDir", ".minecraft")
