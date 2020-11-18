@@ -18,17 +18,16 @@ import (
 */
 
 var (
-	rel Release
-	URL = "https://cdn.merith.tk/_Releases/Other/minecraft.json"
+	rel release
 )
 
-type Release struct {
+type release struct {
 	Official   map[string]string `json:"official"`
 	Unofficial map[string]string `json:"unofficial"`
 }
 
 func filecheck(filename string) {
-	err := getjson(URL, &rel)
+	err := getjson("https://cdn.merith.tk/_Releases/Other/minecraft.json", &rel)
 	if err != nil {
 		fmt.Println("Failed to PARSE json\n", err)
 		fmt.Println(rel)

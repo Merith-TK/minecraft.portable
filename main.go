@@ -11,11 +11,11 @@ import (
 )
 
 var (
-	conf       Config
+	conf       config
 	configfile = "MinecraftData" + "/config.portable.json"
 )
 
-type Config struct {
+type config struct {
 	Launcher string `json:"launcher"`
 	Java     bool   `json:"java"`
 }
