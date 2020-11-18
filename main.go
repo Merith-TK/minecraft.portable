@@ -6,6 +6,8 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+
+	"github.com/gen2brain/dlgs"
 )
 
 var (
@@ -40,6 +42,7 @@ func main() {
 }
 
 func createConfig() {
+	dlgs.Warning("[MineCraftPortable]", "This application takes a bit to work on the first run, please be patient")
 	file, _ := os.Create(configfile)
 	defer file.Close()
 
@@ -54,7 +57,6 @@ func readjson() (string, bool) {
 		fmt.Println("Creating Config")
 		createConfig()
 	}
-	fmt.Println(str)
 	err = json.Unmarshal([]byte(str), &conf)
 
 	return conf.Launcher, conf.Java

@@ -3,7 +3,9 @@ package main
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -15,9 +17,47 @@ import (
 
 */
 
-func filecheck(fileName string, URL string) error {
-	//Get the response bytes from the url
+var (
+	rel Release
+	URL = "https://cdn.merith.tk/_Releases/Other/minecraft.json"
+)
 
+type Release struct {
+	Official   map[string]string `json:"official"`
+	Unofficial map[string]string `json:"unofficial"`
+}
+
+func filecheck(filename string) {
+	err := getjson(URL, &rel)
+	if err != nil {
+		fmt.Println("Failed to PARSE json\n", err)
+		fmt.Println(rel)
+		os.Exit(1)
+	}
+	for k, v := range rel.Official {
+		if filename == k {
+			if _, err := os.Stat("MinecraftData/" + k); err != nil {
+				download("MinecraftData/"+k, v)
+			}
+		}
+	}
+}
+
+func getjson(url string, target interface{}) error {
+	r, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	if r.StatusCode != 200 {
+		return errors.New("Received non 200 response code")
+	}
+	defer r.Body.Close()
+	return json.NewDecoder(r.Body).Decode(target)
+}
+
+func download(fileName string, URL string) error {
+	//Get the response bytes from the url
+	fmt.Println(fileName, "\n", URL)
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		response, err := http.Get(URL)
 		if err != nil {

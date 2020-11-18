@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+
+	"github.com/gen2brain/dlgs"
 )
 
 /*
@@ -20,7 +22,7 @@ var (
 )
 
 func minecraftexe() {
-	filecheck("MinecraftData/minecraft.exe", exeMinecraft)
+	filecheck("minecraft.exe")
 	cmd := exec.Command("MinecraftData/minecraft.exe", "--workDir", ".minecraft")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
@@ -31,11 +33,15 @@ func minecraftexe() {
 }
 
 func unknownexe(execute string) {
+	filecheck(execute)
+	if _, err := os.Stat("MinecraftData/" + execute); err != nil {
+		dlgs.Error("[MineCraftPortable]: ERROR", execute+" not found, did you edit config.portable.json?")
+	}
 	cmd := exec.Command("MinecraftData/" + execute)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	fmt.Println("[MineCraftPortable] Running Launcher")
+	fmt.Println("[MineCraftPortable] Running " + execute)
 	fmt.Println("[MineCraftPortable] Launcher will start Shortly")
 	cmd.Run()
 }
