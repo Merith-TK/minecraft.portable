@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
-
-	"github.com/gen2brain/dlgs"
+	//"github.com/gen2brain/dlgs"
 )
 
 var (
@@ -43,7 +43,7 @@ func main() {
 }
 
 func createConfig() (string, bool) {
-	dlgs.Warning("[MineCraftPortable]", "This application takes a bit to work on the first run, please be patient")
+	log.Println("[MineCraftPortable]", "This application takes a bit to work on the first run, please be patient")
 	file, _ := os.Create(configfile)
 	defer file.Close()
 

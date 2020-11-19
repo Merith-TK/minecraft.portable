@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
-
-	"github.com/gen2brain/dlgs"
 )
 
 /*
@@ -28,7 +27,7 @@ func minecraftexe() {
 func unknownexe(execute string, args string) {
 	filecheck(execute)
 	if _, err := os.Stat("MinecraftData/" + execute); err != nil {
-		dlgs.Error("[MineCraftPortable]: ERROR", execute+" not found, did you edit config.portable.json?")
+		log.Fatal("[MineCraftPortable]: ERROR", execute+" not found, did you edit config.portable.json?")
 	}
 	cmd := exec.Command("MinecraftData/" + execute)
 	cmd.Stdout = os.Stdout
