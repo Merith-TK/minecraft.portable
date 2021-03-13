@@ -13,6 +13,11 @@ import (
 
 */
 
+var (
+	portableJavaPath = "MinecraftData/runtime/jre-legacy/windows-x64/jre-legacy/bin/;"
+	portableJava     = "MinecraftData/runtime/jre-legacy/windows-x64/jre-legacy/bin/java.exe"
+)
+
 func minecraftexe() {
 	filecheck("minecraft.exe")
 	cmd := exec.Command("MinecraftData/minecraft.exe", "--workDir", ".minecraft")
@@ -43,7 +48,7 @@ func javaexe(jarfile string) {
 	java := "java"
 	cmd := exec.Command(java, "-version")
 	if err := cmd.Run(); err != nil {
-		java = "MinecraftData/runtime/jre-x64/bin/java.exe"
+		java = portableJava
 	}
 	cmd = exec.Command(java, "-jar", jarfile)
 	cmd.Stdout = os.Stdout

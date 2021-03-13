@@ -1,0 +1,8 @@
+{
+	"official":{
+		"minecraft.exe": "https://launcher.mojang.com/download/Minecraft.exe",
+		"minecraft.jar": "https://cdn.merith.tk/_Releases/Other/OfficialMinecraft.jar"
+	},
+	"unofficial":{
+	}
+}

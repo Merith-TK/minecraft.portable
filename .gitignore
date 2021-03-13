@@ -1,5 +1,6 @@
-rsrc.syso
+*.syso
 go.sum
 MinecraftData
 Minecraft.portable.*
 release.md 
+gosec.md
