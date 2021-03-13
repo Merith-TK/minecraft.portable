@@ -68,7 +68,7 @@ func readjson() (string, bool, bool) {
 		fmt.Println("Creating Config")
 		return createConfig()
 	}
-	err = json.Unmarshal([]byte(str), &conf)
+	_ = json.Unmarshal([]byte(str), &conf)
 
 	return conf.Launcher, conf.Java, conf.JavaPortable
 }

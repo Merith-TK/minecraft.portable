@@ -48,7 +48,7 @@ func getjson(url string, target interface{}) error {
 		return err
 	}
 	if r.StatusCode != 200 {
-		return errors.New("Received non 200 response code")
+		return errors.New("received non 200 response code")
 	}
 	defer r.Body.Close()
 	return json.NewDecoder(r.Body).Decode(target)
@@ -65,7 +65,7 @@ func download(fileName string, URL string) error {
 		defer response.Body.Close()
 
 		if response.StatusCode != 200 {
-			return errors.New("Received non 200 response code")
+			return errors.New("received non 200 response code")
 		}
 		//Create a empty file
 		file, err := os.Create(fileName)
@@ -112,18 +112,4 @@ func md5hash(filePath string) (string, error) {
 
 	return returnMD5String, nil
 
-}
-
-func fileWrite(filename string, data string) error {
-	file, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	_, err = io.WriteString(file, data)
-	if err != nil {
-		return err
-	}
-	return file.Sync()
 }

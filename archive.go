@@ -1,20 +1,15 @@
 package main
 
-import (
-	"archive/tar"
-	"archive/zip"
-	"compress/gzip"
-	"io"
-	"os"
-	"path/filepath"
-)
-
 /*
 
 	### THIS IS LITTERALLY JUST FOR EXTRACTING FILES ###
+	### Current Unused, I am aware that I could      ###
+	### Remove this, but i refuse to find this code  ###
+	### Again, pain enough as it was				 ###
 
 */
 
+/*
 func ungzip(source, target string) error {
 	reader, err := os.Open(source)
 	if err != nil {
@@ -152,3 +147,4 @@ func unzip(src, dest string) error {
 	}
 	return nil
 }
+*/
