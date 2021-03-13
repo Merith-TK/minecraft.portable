@@ -27,7 +27,7 @@ type release struct {
 }
 
 func filecheck(filename string) {
-	err := getjson("https://git.merith.tk/merith-tk/Test-repo/raw/branch/master/minecraft.json", &rel)
+	err := getjson("https://raw.githubusercontent.com/Merith-TK/minecraft.portable/master/assets/launchers.json", &rel)
 	if err != nil {
 		fmt.Println("Failed to PARSE json\n", err)
 		fmt.Println(rel)
