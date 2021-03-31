@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 	//"github.com/gen2brain/dlgs"
 )
 
@@ -42,7 +43,12 @@ func main() {
 		} else {
 			os.Setenv("APPDATA", "MinecraftData/")
 			os.Setenv("HOME", "MinecraftData")
-			unknownexe(launcher, conf.Args)
+			if strings.Contains(strings.ToLower(launcher), "technic") {
+				fmt.Println("Launching Technic")
+				technic(launcher, java)
+			} else {
+				unknownexe(launcher, conf.Args)
+			}
 		}
 	} else {
 		os.Setenv("APPDATA", "MinecraftData/")
