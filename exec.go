@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"strings"
 )
 
 /*
@@ -34,7 +36,8 @@ func unknownexe(execute string, args string) {
 	if _, err := os.Stat("MinecraftData/" + execute); err != nil {
 		log.Fatal("[MineCraftPortable]: ERROR", execute+" not found, did you edit config.portable.json?")
 	}
-	cmd := exec.Command("MinecraftData/" + execute)
+	cmdargs := strings.Split(args, " ")
+	cmd := exec.Command("MinecraftData/"+execute, cmdargs...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
@@ -46,11 +49,15 @@ func unknownexe(execute string, args string) {
 func javaexe(jarfile string) {
 	jarfile = "MinecraftData/" + jarfile
 	java := "java"
-	cmd := exec.Command(java, "-version")
-	if err := cmd.Run(); err != nil {
-		java = portableJava
+	if !conf.JavaPortable {
+		cmd := exec.Command(java, "-version")
+		if err := cmd.Run(); err != nil {
+			java = portableJava
+		}
 	}
-	cmd = exec.Command(java, "-jar", jarfile)
+	cmd := exec.Command(java, "-jar", filepath.Base(jarfile), conf.Args)
+	cmd.Dir = filepath.Dir(jarfile)
+	fmt.Println(cmd.Dir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin

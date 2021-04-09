@@ -4,6 +4,7 @@ It will download the latest `Minecraft.exe` launcher and run it, storing all dat
 
 Dead simple
 
+3F1C30B	
 
 ## Advanced
 You can use a custom launcher, all you have to do is open `MinecraftData/config.portable.json` and change `"launcher":"minecraft.exe"` to where your custom launcher is located, assuming MineraftData is the root folder. so `MultiMC` would be setup like so
@@ -25,5 +26,15 @@ When setting up MultiMC with the setup in this example, it is IMPORTANT to use t
 If you wanted to use a `jar` version of minecraft, like `minecraft.jar` (can be found [here](https://launcher.mojang.com/mc/launcher/jar/fa896bd4c79d4e9f0d18df43151b549f865a3db6/launcher.jar.lzma), you will need winrar or 7zip to open the `lzma` archive)
 
 and change your `config.portable.json` to match this
-
-`{"launcher":"minecraft.jar","java":true}`
+```json
+{
+	"launcher":"minecraft.jar",
+	"java":false,
+	"javaPortable":false,
+	"args":"",
+	"environment":{
+		"APPDATA":"./",
+		"HOME":"./"
+	}
+}
+```

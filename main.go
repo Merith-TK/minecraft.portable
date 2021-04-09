@@ -17,10 +17,11 @@ var (
 )
 
 type config struct {
-	Launcher     string `json:"launcher"`
-	Java         bool   `json:"java"`
-	JavaPortable bool   `json:"javaPortable"`
-	Args         string `json:"args"`
+	Launcher     string            `json:"launcher"`
+	Java         bool              `json:"java"`
+	JavaPortable bool              `json:"javaPortable"`
+	Args         string            `json:"args"`
+	Environment  map[string]string `json:"environment"`
 }
 
 func main() {
@@ -28,8 +29,10 @@ func main() {
 		os.Mkdir("MinecraftData", 0755)
 	}
 
-	os.Setenv("APPDATA", "./")
-	os.Setenv("HOME", "./")
+	for k, v := range conf.Environment {
+		os.Setenv(k, v)
+		fmt.Println("ENV:", k, "=", v)
+	}
 	launcher, java, portable := readjson()
 
 	if portable {
@@ -63,7 +66,17 @@ func createConfig() (string, bool, bool) {
 	file, _ := os.Create(configfile)
 	defer file.Close()
 
-	_, _ = io.WriteString(file, `{"launcher":"minecraft.exe","java":false,"javaPortable":false,"args":""}`)
+	defaultConf := `{
+	"launcher":"minecraft.exe",
+	"java":false,
+	"javaPortable":false,
+	"args":"",
+	"environment":{
+		"APPDATA":"./",
+		"HOME":"./"
+	}
+}`
+	_, _ = io.WriteString(file, defaultConf)
 	file.Sync()
 	return readjson()
 }
