@@ -49,7 +49,7 @@ func unknownexe(execute string, args string) {
 func javaexe(jarfile string) {
 	jarfile = "MinecraftData/" + jarfile
 	java := "java"
-	if !conf.JavaPortable {
+	if conf.JavaPortable {
 		cmd := exec.Command(java, "-version")
 		if err := cmd.Run(); err != nil {
 			java = portableJava
