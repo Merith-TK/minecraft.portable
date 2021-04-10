@@ -36,10 +36,11 @@ func main() {
 	launcher, java, portable := readjson()
 
 	if portable {
-		path := os.Getenv("PATH")
-		os.Setenv("PATH", portableJavaPath+path)
+		pwd, _ := os.Getwd()
+		path := pwd + "\\" + portableJavaPath
+		path = strings.ReplaceAll(path, "/", "\\")
+		os.Setenv("PATH", path)
 	}
-
 	if !java {
 		if launcher == "minecraft.exe" {
 			minecraftexe()
@@ -54,8 +55,6 @@ func main() {
 			}
 		}
 	} else {
-		os.Setenv("APPDATA", "MinecraftData/")
-		os.Setenv("HOME", "MinecraftData")
 		javaexe(launcher)
 	}
 

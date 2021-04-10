@@ -46,18 +46,22 @@ func unknownexe(execute string, args string) {
 	cmd.Run()
 }
 
+// Java requires extra work because java
 func javaexe(jarfile string) {
 	jarfile = "MinecraftData/" + jarfile
 	java := "java"
-	if conf.JavaPortable {
-		cmd := exec.Command(java, "-version")
-		if err := cmd.Run(); err != nil {
-			java = portableJava
-		}
+	cmd := exec.Command(java, "-version")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stdout
+	cmd.Stdin = os.Stdin
+	if err := cmd.Run(); err != nil {
+		pwd, _ := os.Getwd()
+		path := pwd + "\\" + portableJavaPath
+		path = strings.ReplaceAll(path, "/", "\\")
+		os.Setenv("PATH", path)
 	}
-	cmd := exec.Command(java, "-jar", filepath.Base(jarfile), conf.Args)
+	cmd = exec.Command(java, "-jar", filepath.Base(jarfile), conf.Args)
 	cmd.Dir = filepath.Dir(jarfile)
-	fmt.Println(cmd.Dir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
