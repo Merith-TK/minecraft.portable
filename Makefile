@@ -9,10 +9,9 @@ clean:
 javatest:
 	PATH=/mingw64/bin:/usr/bin:/d/Scoop/apps/go/current/bin go run ./
 
-malware: default
-	go build -o minecraft.portable.testing.exe -ldflags "-H windowsgui" 
-	"C:/ProgramData/Microsoft/Windows Defender/Platform/4.18.2010.7-0/MpCmdRun.exe" -Scan -ScanType 3 -File F:/Workspace/minecraft.portable/minecraft.portable.exe
-	"C:/ProgramData/Microsoft/Windows Defender/Platform/4.18.2010.7-0/MpCmdRun.exe" -Scan -ScanType 3 -File F:/Workspace/minecraft.portable/minecraft.portable.testing.exe
+malware:
+	go build -o minecraft.portable.testing.exe
+	"C:/ProgramData/Microsoft/Windows Defender/Platform/4.18.2104.10-0/MpCmdRun.exe" -Scan -ScanType 3 -File D:/Workspace/minecraft.portable/minecraft.portable.testing.exe
 
 fix-repo:
 	git remote add github https://github.com/merith-tk/minecraft.portable.git
