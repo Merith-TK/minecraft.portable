@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -27,9 +28,15 @@ func minecraftexe() {
 
 func unknownexe(execute string, args string) {
 	filecheck(execute)
-	if _, err := os.Stat("MinecraftData/" + execute); err != nil {
-		log.Fatal("[MineCraftPortable]: ERROR", execute+" not found, did you edit config.portable.json?")
+	if strings.HasPrefix(execute, "/") || strings.HasPrefix(execute, "./") || strings.HasPrefix(execute, "../") {
+		execute, _ = filepath.Abs(execute)
+	} else {
+		execute, _ = filepath.Abs("MinecraftData/" + execute)
 	}
+	if _, err := os.Stat(execute); err != nil {
+		log.Fatal("[MineCraftPortable]: ERROR", execute, "not found")
+	}
+
 	cmdargs := strings.Split(args, " ")
 	cmd := exec.Command("MinecraftData/"+execute, cmdargs...)
 	cmd.Stdout = os.Stdout

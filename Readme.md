@@ -4,37 +4,25 @@ It will download the latest `Minecraft.exe` launcher and run it, storing all dat
 
 Dead simple
 
-3F1C30B	
-
 ## Advanced
-You can use a custom launcher, all you have to do is open `MinecraftData/config.portable.json` and change `"launcher":"minecraft.exe"` to where your custom launcher is located, assuming MineraftData is the root folder. so `MultiMC` would be setup like so
-```
-Minecraft.portable.exe
-MinecraftData/
-	.minecraft/
-	game/
-	runtime/
-	/MultiMC
-		/MultiMC.exe
-```
+If you wish to use a custom launcher, or even another program entirely, you'll need to edit the 
+`toml` file in the same folder as the program, below is the default config, without the comments
+that are inplace to describe each one, 
 
-your `config.portable.json` file would look like `{"launcher":"MultiMC/MultiMC.exe","java":false}`
+The Launcher will assume the program is inside the `MinecraftData` folder unless you specify a 
+filepath like so `/Portable/Program/program.exe`, which is `DRIVE:\Portable\Program\program.exe`,
 
-When setting up MultiMC with the setup in this example, it is IMPORTANT to use this path to javaw.exe
-`../runtime/jre-x64/bin/javaw.exe`, otherwise Java may not work
+```toml
+launcher = "minecraft.exe"
+launcherArgs = ""
 
-If you wanted to use a `jar` version of minecraft, like `minecraft.jar` (can be found [here](https://launcher.mojang.com/mc/launcher/jar/fa896bd4c79d4e9f0d18df43151b549f865a3db6/launcher.jar.lzma), you will need winrar or 7zip to open the `lzma` archive)
+[java]
+  javaArgs = ""
+  useJava = false
+  useJava16 = false
+  usePortableJava = false
 
-and change your `config.portable.json` to match this
-```json
-{
-	"launcher":"minecraft.jar",
-	"java":false,
-	"javaPortable":false,
-	"args":"",
-	"environment":{
-		"APPDATA":"./",
-		"HOME":"./"
-	}
-}
+[environment]
+  APPDATA = "./"
+  HOME = "./"
 ```
