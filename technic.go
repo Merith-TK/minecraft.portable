@@ -31,7 +31,7 @@ var (
 	technicConfigFile = "MinecraftData/.technic/settings.json"
 )
 
-func technic(launcher string, java bool) {
+func technic() {
 	if _, err := os.Stat("MinecraftData/.technic/settings.json"); err != nil {
 		os.MkdirAll("MinecraftData/.technic", 0755)
 		technicConfig()
