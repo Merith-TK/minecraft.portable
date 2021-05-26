@@ -2,8 +2,6 @@
 Simply download the Release.exe file and run it. 
 It will download the latest `Minecraft.exe` launcher and run it, storing all data in `MinecraftData`.
 
-Dead simple
-
 ## Advanced
 If you wish to use a custom launcher, or even another program entirely, you'll need to edit the 
 `toml` file in the same folder as the program, below is the default config, without the comments
