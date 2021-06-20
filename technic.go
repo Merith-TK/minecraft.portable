@@ -28,12 +28,12 @@ type technicApi struct {
 
 var (
 	technicapi        technicApi
-	technicConfigFile = "MinecraftData/.technic/settings.json"
+	technicConfigFile = dataDir + "/.technic/settings.json"
 )
 
 func technic() {
-	if _, err := os.Stat("MinecraftData/.technic/settings.json"); err != nil {
-		os.MkdirAll("MinecraftData/.technic", 0755)
+	if _, err := os.Stat(dataDir + "/.technic/settings.json"); err != nil {
+		os.MkdirAll(dataDir+"/.technic", 0755)
 		technicConfig()
 	}
 	technicexe()
@@ -65,10 +65,10 @@ func technicConfig() {
 
 func technicexe() {
 	technicVerify()
-	if _, err := os.Stat("MinecraftData/TechnicLauncher.exe"); err != nil {
+	if _, err := os.Stat(dataDir + "/TechnicLauncher.exe"); err != nil {
 		log.Fatal("[MineCraftPortable]: ERROR, TechnicLauncher.exe Not found. Probably failed to download")
 	}
-	cmd := exec.Command("MinecraftData/TechnicLauncher.exe")
+	cmd := exec.Command(dataDir + "/TechnicLauncher.exe")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
@@ -84,5 +84,5 @@ func technicVerify() {
 		fmt.Println(technicapi)
 		os.Exit(1)
 	}
-	download("MinecraftData/TechnicLauncher.exe", technicapi.URL.Exe)
+	download(dataDir+"/TechnicLauncher.exe", technicapi.URL.Exe)
 }

@@ -33,8 +33,8 @@ func filecheck(filename string) {
 	}
 	for k, v := range rel.Official {
 		if filename == k {
-			if _, err := os.Stat("MinecraftData/" + k); err != nil {
-				download("MinecraftData/"+k, v)
+			if _, err := os.Stat(dataDir + "/" + k); err != nil {
+				download(dataDir+"/"+k, v)
 			}
 		}
 	}

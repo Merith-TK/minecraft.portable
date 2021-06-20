@@ -8,7 +8,8 @@ If you wish to use a custom launcher, or even another program entirely, you'll n
 that are inplace to describe each one, 
 
 The Launcher will assume the program is inside the `MinecraftData` folder unless you specify a 
-filepath like so `/Portable/Program/program.exe`, which is `DRIVE:\Portable\Program\program.exe`,
+filepath like so `/Portable/Program/program.exe`, which is `DRIVE:\Portable\Program\program.exe`, 
+the `MinecraftData` folder will be named to whatever you name your EXE
 
 ```toml
 launcher = "minecraft.exe"

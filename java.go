@@ -6,12 +6,13 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
 var (
 	javaPaths = []string{
-		"MinecraftData/runtime/jre-legacy/windows-x64/jre-legacy/bin/javaw.exe",
+		dataDir + "/runtime/jre-legacy/windows-x64/jre-legacy/bin/javaw.exe",
 		"/PortableApps/CommonFiles/Java64/bin/javaw.exe",
 		"/PortableApps/CommonFiles/Java/bin/javaw.exe",
 	}
@@ -20,6 +21,12 @@ var (
 func javaexe(jarfile string) {
 	var java string
 	var err error
+
+	if strings.HasPrefix(jarfile, "/") || strings.HasPrefix(jarfile, "./") {
+		jarfile, _ = filepath.Abs(jarfile)
+	} else {
+		jarfile, _ = filepath.Abs(dataDir + "/" + jarfile)
+	}
 
 	if !conf.Java.UsePortableJava {
 		java, err = exec.LookPath("java")
@@ -31,7 +38,7 @@ func javaexe(jarfile string) {
 		java = locateJava()
 	}
 	if conf.Java.UseJava16 {
-		java, err = filepath.Abs("MinecraftData/runtime/jre-runtime-alpha/windows-x64/jre-runtime-alpha/bin/javaw.exe")
+		java, err = filepath.Abs(dataDir + "/runtime/jre-runtime-alpha/windows-x64/jre-runtime-alpha/bin/javaw.exe")
 		if err != nil {
 			if _, err := os.Stat(java); err != nil {
 				log.Fatalln("ERROR: Java 16 not found, did you run Minecraft Snapshot 21w19a or later?")

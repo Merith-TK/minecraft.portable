@@ -10,12 +10,15 @@ import (
 
 var (
 	conf          config
-	configfile    = strings.TrimSuffix(os.Args[0], "exe") + "toml"
+	configfile    = strings.TrimSuffix(os.Args[0], ".exe") + ".toml"
+	dataDir       = strings.TrimSuffix(os.Args[0], ".exe") + ".data"
 	defaultConfig = `
 # launcher
-#	the file to launch within the MinecraftData folder
-#	if the file is located in MinecraftData/launcher.exe,
-#	input "launcher.exe
+#	the file to launch within the ` + dataDir + ` folder
+#	if the file is located in ` + dataDir + `\launcher.exe,
+#	input "launcher.exe"
+#	You can also put a path like "./" or "../" to specify a
+#	folder outside of the data folder
 # launcherArgs
 #	Arguments you need to run the launcher, only useful if
 #	the launcher is not the official launcher from microsoft

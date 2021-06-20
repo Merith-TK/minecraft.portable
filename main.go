@@ -8,10 +8,10 @@ import (
 )
 
 func main() {
-	if _, err := os.Stat("MinecraftData"); err != nil {
-		os.Mkdir("MinecraftData", 0755)
+	if _, err := os.Stat(dataDir); err != nil {
+		os.Mkdir(dataDir, 0755)
 	}
-	fmt.Println(configfile)
+
 	err := setupConfig()
 	if err != nil {
 		fmt.Println("Could not init config")
@@ -26,8 +26,8 @@ func main() {
 		if conf.Launcher == "minecraft.exe" {
 			minecraftexe()
 		} else {
-			os.Setenv("APPDATA", "MinecraftData/")
-			os.Setenv("HOME", "MinecraftData")
+			os.Setenv("APPDATA", dataDir+"/")
+			os.Setenv("HOME", dataDir+"/")
 			if strings.Contains(strings.ToLower(conf.Launcher), "technic") {
 				fmt.Println("Launching Technic")
 				technic()

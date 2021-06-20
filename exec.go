@@ -17,7 +17,7 @@ import (
 
 func minecraftexe() {
 	filecheck("minecraft.exe")
-	cmd := exec.Command("MinecraftData/minecraft.exe", "--workDir", ".minecraft")
+	cmd := exec.Command(dataDir+"/minecraft.exe", "--workDir", ".minecraft")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
@@ -31,14 +31,15 @@ func unknownexe(execute string, args string) {
 	if strings.HasPrefix(execute, "/") || strings.HasPrefix(execute, "./") || strings.HasPrefix(execute, "../") {
 		execute, _ = filepath.Abs(execute)
 	} else {
-		execute, _ = filepath.Abs("MinecraftData/" + execute)
+		execute, _ = filepath.Abs(dataDir + "/" + execute)
 	}
 	if _, err := os.Stat(execute); err != nil {
 		log.Fatal("[MineCraftPortable]: ERROR", execute, "not found")
 	}
 
 	cmdargs := strings.Split(args, " ")
-	cmd := exec.Command("MinecraftData/"+execute, cmdargs...)
+	cmd := exec.Command(execute, cmdargs...)
+	cmd.Dir = filepath.Dir(dataDir)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
