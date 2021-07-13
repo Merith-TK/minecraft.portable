@@ -7,7 +7,9 @@ clean:
 	rm minecraft.portable.testing.exe
 
 javatest:
-	PATH=/mingw64/bin:/usr/bin:/d/Scoop/apps/go/current/bin go run ./
+	go build
+	export PATH=/mingw64/bin:/usr/bin 
+	minecraft.portable.exe
 
 malware:
 	go build -o minecraft.portable.testing.exe

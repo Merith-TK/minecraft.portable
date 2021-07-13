@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 /*
@@ -68,13 +69,31 @@ func technicexe() {
 	if _, err := os.Stat(dataDir + "/TechnicLauncher.exe"); err != nil {
 		log.Fatal("[MineCraftPortable]: ERROR, TechnicLauncher.exe Not found. Probably failed to download")
 	}
-	cmd := exec.Command(dataDir + "/TechnicLauncher.exe")
+	var java string
+	var err error
+	if !conf.Java.UsePortableJava {
+		java, err = exec.LookPath("java")
+		if err != nil {
+			log.Fatalln("ERROR: NO JAVA INSTALLED, Using Portable Runtime")
+			java = locateJava()
+		}
+	} else {
+		java = locateJava()
+	}
+	err = nil
+	java = filepath.ToSlash(java)
+	javaPath := filepath.ToSlash(filepath.Dir(java))
+	os.Setenv("PATH", javaPath)
+	cmd := exec.Command(javaPath+"/javaw.exe", "-jar", dataDir+"/TechnicLauncher.jar")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
 	fmt.Println("[MineCraftPortable] Running TechnicLauncher.exe")
 	fmt.Println("[MineCraftPortable] Launcher will start Shortly")
-	cmd.Run()
+	err = cmd.Start()
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func technicVerify() {
@@ -84,5 +103,5 @@ func technicVerify() {
 		fmt.Println(technicapi)
 		os.Exit(1)
 	}
-	download(dataDir+"/TechnicLauncher.exe", technicapi.URL.Exe)
+	download(dataDir+"/TechnicLauncher.jar", technicapi.URL.Jar)
 }
