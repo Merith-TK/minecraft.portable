@@ -1,5 +1,4 @@
 *.syso
-go.sum
 *Data
 Minecraft.portable.*
 release.md 

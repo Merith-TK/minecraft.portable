@@ -1,6 +1,6 @@
 default:
 	rsrc -ico assets/icon.ico
-	go build -ldflags "-H windowsgui" 
+	go build
 
 clean: 
 	rm minecraft.portable.exe
@@ -13,7 +13,7 @@ javatest:
 
 malware:
 	go build -o minecraft.portable.testing.exe
-	"C:/ProgramData/Microsoft/Windows Defender/Platform/4.18.2104.10-0/MpCmdRun.exe" -Scan -ScanType 3 -File D:/Workspace/minecraft.portable/minecraft.portable.testing.exe
+	"C:/ProgramData/Microsoft/Windows Defender/Platform/4.18.2106.6-0/MpCmdRun.exe" -Scan -ScanType 3 -File D:/Workspace/minecraft.portable/minecraft.portable.testing.exe
 
 fix-repo:
 	git remote add github https://github.com/merith-tk/minecraft.portable.git
