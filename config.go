@@ -1,11 +1,11 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
 	"strings"
 
-	toml "github.com/pelletier/go-toml"
+	toml "github.com/BurntSushi/toml"
 )
 
 var (
@@ -13,35 +13,13 @@ var (
 	configfile    = strings.TrimSuffix(os.Args[0], ".exe") + ".toml"
 	dataDir       = strings.TrimSuffix(os.Args[0], ".exe") + ".data"
 	defaultConfig = `
-# launcher
-#	the file to launch within the ` + dataDir + ` folder
-#	if the file is located in ` + dataDir + `\launcher.exe,
-#	input "launcher.exe"
-#	You can also put a path like "./" or "../" to specify a
-#	folder outside of the data folder
-# launcherArgs
-#	Arguments you need to run the launcher, only useful if
-#	the launcher is not the official launcher from microsoft
 launcher = "minecraft.exe"
 launcherArgs = ""
 
-# javaArgs
-#	Arguments to pass to java
-# useJava
-#	use java, this will be removed in later
-#	updates
-# useJava16
-#	This is purely to use for later snapshots, 
-#	furture proofing, only usable with 
-# usePortableJava
-#	Use the portable java bundled with the minecraft launcher
-#	This currently only supports java8, snapshots after '21w19a'
-#	will not work in third party launchers for anything that is NOT
-#	a snapshot
 [java]
   javaArgs = ""
   useJava = false
-  useJava16 = false
+  useJava17 = false
   usePortableJava = false
 
 # Use only if you need to set custom variables, usually not needed
@@ -50,6 +28,8 @@ launcherArgs = ""
   APPDATA = "./"
   HOME = "./"
 `
+
+// this is being ignored
 )
 
 type config struct {
@@ -58,26 +38,28 @@ type config struct {
 	Java         struct {
 		JavaArgs        string `toml:"javaArgs"`
 		UseJava         bool   `toml:"useJava"`
-		UseJava16       bool   `toml:"useJava16"`
+		UseJava17       bool   `toml:"useJava17"`
 		UsePortableJava bool   `toml:"usePortableJava"`
 	} `toml:"java"`
 	Environment map[string]string `toml:"environment"`
 }
 
 func setupConfig() error {
-	str, err := os.ReadFile(configfile)
-	if err != nil {
-		f, err := os.OpenFile(configfile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if _, err := os.Stat(configfile); os.IsNotExist(err) {
+		fmt.Println("[MineCraftPortable] No config found, creating default config")
+		fmt.Println("[MineCraftPortable] Default config:", configfile)
+		fmt.Println("[MineCraftPortable] Default data:", dataDir)
+		f, err := os.Create(configfile)
 		if err != nil {
-			log.Println(err)
+			return err
 		}
-		defer f.Close()
-		if _, err := f.WriteString(defaultConfig); err != nil {
-			log.Println(err)
-		}
-		str, _ = os.ReadFile(configfile)
-		err = nil
+		toml.NewEncoder(f).Encode(conf)
+		// write config file
+		f.Close()
 	}
-	_ = toml.Unmarshal([]byte(str), &conf)
-	return err
+	fmt.Println("[MineCraftPortable] Java:", conf.Java.UseJava)
+	fmt.Println("[MineCraftPortable] Java17:", conf.Java.UseJava17)
+	fmt.Println("[MineCraftPortable] Portable Java:", conf.Java.UsePortableJava)
+
+	return nil
 }

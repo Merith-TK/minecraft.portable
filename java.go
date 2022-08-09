@@ -11,10 +11,12 @@ import (
 )
 
 var (
-	javaPaths = []string{
+	java8Paths = []string{
 		dataDir + "/runtime/jre-legacy/windows-x64/jre-legacy/bin/javaw.exe",
-		"/PortableApps/CommonFiles/Java64/bin/javaw.exe",
-		"/PortableApps/CommonFiles/Java/bin/javaw.exe",
+		"/PortableApps/CommonFiles/Java64/bin/javaw.exe", // https://portableapps.com/apps/utilities/java_portable_64
+	}
+	java17Paths = []string{
+		"/PortableApps/CommonFiles/OpenJDKJRE64/bin/javaw.exe", // https://portableapps.com/apps/utilities/OpenJDK64
 	}
 )
 
@@ -37,16 +39,6 @@ func javaexe(jarfile string) {
 	} else {
 		java = locateJava()
 	}
-	if conf.Java.UseJava16 {
-		java, err = filepath.Abs(dataDir + "/runtime/jre-runtime-alpha/windows-x64/jre-runtime-alpha/bin/javaw.exe")
-		if err != nil {
-			if _, err := os.Stat(java); err != nil {
-				log.Fatalln("ERROR: Java 16 not found, did you run Minecraft Snapshot 21w19a or later?")
-				time.Sleep(20 * time.Second)
-				os.Exit(2)
-			}
-		}
-	}
 	if java == "" {
 		log.Fatalln("ERROR: NO JAVA FOUND, Please run minecraft atleast once through the default launcher")
 		time.Sleep(20 * time.Second)
@@ -60,16 +52,31 @@ func javaexe(jarfile string) {
 	cmd.Stdin = os.Stdin
 	fmt.Println("[MineCraftPortable] Running Launcher")
 	fmt.Println("[MineCraftPortable] Java Launcher will start Shortly")
-	cmd.Run()
+	//cmd.Run()
+
+	fmt.Println("[MineCraftPortable] DID NOT RUN, IN DEV MODE")
 }
 
 func locateJava() string {
-	for _, p := range javaPaths {
-		java, _ := filepath.Abs(p)
-		fmt.Println("LOCATE:", java)
-		if _, err := os.Stat(java); err == nil {
-			return java
+	var javaPath string
+	fmt.Println("[MineCraftPortable] Searching for Java")
+	fmt.Println("[MineCraftPortable] Use Java17:", conf.Java.UseJava17)
+	if conf.Java.UseJava17 {
+		for _, path := range java17Paths {
+			fmt.Println("LOCATE:", path)
+			if _, err := os.Stat(path); err == nil {
+				javaPath = path
+				break
+			}
+		}
+	} else {
+		for _, path := range java8Paths {
+			java, _ := filepath.Abs(path)
+			if _, err := os.Stat(java); err == nil {
+				javaPath = java
+				break
+			}
 		}
 	}
-	return ""
+	return javaPath
 }

@@ -3,10 +3,10 @@ default:
 	go build
 
 clean: 
-	rm minecraft.portable.exe
-	rm minecraft.portable.testing.exe
+	-rm minecraft.portable.exe
+	-rm minecraft.portable.testing.exe
 
-javatest:
+javatest: clean
 	go build
 	export PATH=/mingw64/bin:/usr/bin 
 	minecraft.portable.exe
