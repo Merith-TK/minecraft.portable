@@ -17,7 +17,6 @@ launcherArgs = ""
 
 [java]
   javaArgs = ""
-  useJava = false
   useJava16 = false
   usePortableJava = false
 

@@ -43,7 +43,7 @@ func unknownexe(execute string, args string) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	fmt.Println("[MineCraftPortable] Running " + execute)
+	fmt.Println("[MineCraftPortable] Running "+execute, args)
 	fmt.Println("[MineCraftPortable] Launcher will start Shortly")
 	cmd.Run()
 }

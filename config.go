@@ -18,7 +18,6 @@ launcherArgs = ""
 
 [java]
   javaArgs = ""
-  useJava = false
   useJava17 = false
   usePortableJava = false
 
@@ -37,7 +36,6 @@ type config struct {
 	LauncherArgs string `toml:"launcherArgs"`
 	Java         struct {
 		JavaArgs        string `toml:"javaArgs"`
-		UseJava         bool   `toml:"useJava"`
 		UseJava17       bool   `toml:"useJava17"`
 		UsePortableJava bool   `toml:"usePortableJava"`
 	} `toml:"java"`
@@ -47,8 +45,6 @@ type config struct {
 func setupConfig() error {
 	if _, err := os.Stat(configfile); os.IsNotExist(err) {
 		fmt.Println("[MineCraftPortable] No config found, creating default config")
-		fmt.Println("[MineCraftPortable] Default config:", configfile)
-		fmt.Println("[MineCraftPortable] Default data:", dataDir)
 		f, err := os.Create(configfile)
 		if err != nil {
 			return err
@@ -56,10 +52,13 @@ func setupConfig() error {
 		toml.NewEncoder(f).Encode(conf)
 		// write config file
 		f.Close()
+	} else {
+		fmt.Println("[MineCraftPortable] Found config, loading config")
+		_, err := toml.DecodeFile(configfile, &conf)
+		if err != nil {
+			return err
+		}
 	}
-	fmt.Println("[MineCraftPortable] Java:", conf.Java.UseJava)
-	fmt.Println("[MineCraftPortable] Java17:", conf.Java.UseJava17)
-	fmt.Println("[MineCraftPortable] Portable Java:", conf.Java.UsePortableJava)
 
 	return nil
 }

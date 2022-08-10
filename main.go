@@ -22,22 +22,22 @@ func main() {
 		fmt.Println("ENV:", k, "=", v)
 	}
 
-	if !conf.Java.UseJava {
+	if conf.Launcher == "" {
+		fmt.Println("[MineCraftPortable] No launcher specified, exiting")
+		return
+	}
+	// if conf.Launcher ends with .jar, assume it's a jar file
+	if strings.HasSuffix(conf.Launcher, ".jar") {
+		javaexe(conf.Launcher)
+	} else {
 		if conf.Launcher == "minecraft.exe" {
 			minecraftexe()
-		} else {
-			os.Setenv("APPDATA", dataDir+"/")
-			os.Setenv("HOME", dataDir+"/")
-			if strings.Contains(strings.ToLower(conf.Launcher), "technic") {
-				fmt.Println("Launching Technic")
-				technic()
-			} else {
-				unknownexe(conf.Launcher, conf.LauncherArgs)
-			}
+			return
+		}
+		if conf.Launcher == "technic.exe" {
+			technicexe()
+			return
 		}
 	}
-	if conf.Java.UseJava {
-		fmt.Println("running java")
-		javaexe(conf.Launcher)
-	}
+
 }

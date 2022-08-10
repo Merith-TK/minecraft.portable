@@ -5,8 +5,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"os/exec"
-	"path/filepath"
 )
 
 /*
@@ -66,34 +64,39 @@ func technicConfig() {
 
 func technicexe() {
 	technicVerify()
-	if _, err := os.Stat(dataDir + "/TechnicLauncher.exe"); err != nil {
+	if _, err := os.Stat(dataDir + "/TechnicLauncher.jar"); err != nil {
 		log.Fatal("[MineCraftPortable]: ERROR, TechnicLauncher.exe Not found. Probably failed to download")
 	}
-	var java string
-	var err error
-	if !conf.Java.UsePortableJava {
-		java, err = exec.LookPath("java")
-		if err != nil {
-			log.Fatalln("ERROR: NO JAVA INSTALLED, Using Portable Runtime")
-			java = locateJava()
-		}
-	} else {
-		java = locateJava()
+
+	// if technic/settings.json doesn't exist, create it
+	if _, err := os.Stat(dataDir + "/technic/settings.json"); err != nil {
+		os.MkdirAll(dataDir+"/technic", 0755)
+		technicDefualtConfig := `{
+	"memory": 0,
+	"launchAction": "HIDE",
+	"buildStream": "stable",
+	"showConsole": true,
+	"languageCode": "default",
+	"clientId": "",
+	"directory": "portable",
+	"latestNewsArticle": 0,
+	"launchToModpacks": false,
+	"javaVersion": "default",
+	"autoAcceptRequirements": false,
+	"javaBitness": true,
+	"launcherSettingsVersion": "2",
+	"windowType": "DEFAULT",
+	"windowWidth": 0,
+	"windowHeight": 0,
+	"enableStencilBuffer": true,
+	"useMojangJava": false
+}`
+		file, _ := os.Create(dataDir + "/technic/settings.json")
+		defer file.Close()
+		_, _ = io.WriteString(file, technicDefualtConfig)
+		file.Sync()
 	}
-	err = nil
-	java = filepath.ToSlash(java)
-	javaPath := filepath.ToSlash(filepath.Dir(java))
-	os.Setenv("PATH", javaPath)
-	cmd := exec.Command(javaPath+"/javaw.exe", "-jar", dataDir+"/TechnicLauncher.jar")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stdout
-	cmd.Stdin = os.Stdin
-	fmt.Println("[MineCraftPortable] Running TechnicLauncher.exe")
-	fmt.Println("[MineCraftPortable] Launcher will start Shortly")
-	err = cmd.Start()
-	if err != nil {
-		log.Fatalln(err)
-	}
+	javaexe("TechnicLauncher.jar")
 }
 
 func technicVerify() {
