@@ -27,40 +27,20 @@ type technicApi struct {
 }
 
 var (
-	technicapi        technicApi
-	technicConfigFile = dataDir + "/.technic/settings.json"
+	technicapi technicApi
 )
 
 func technic() {
-	if _, err := os.Stat(dataDir + "/.technic/settings.json"); err != nil {
-		os.MkdirAll(dataDir+"/.technic", 0755)
-		technicConfig()
+	if _, err := os.Stat(dataDir + "/technic/settings.json"); err != nil {
+		os.MkdirAll(dataDir+"/technic", 0755)
+
+		// Create default config file for portable mode
+		file, _ := os.Create(dataDir + "/technic/settings.json")
+		defer file.Close()
+		_, _ = io.WriteString(file, `{"directory": "portable"}`)
+		file.Sync()
 	}
 	technicexe()
-}
-
-func technicConfig() {
-	file, _ := os.Create(technicConfigFile)
-	defer file.Close()
-	_, _ = io.WriteString(file, `{
-		"memory": 0,
-		"launchAction": "HIDE",
-		"buildStream": "stable",
-		"showConsole": false,
-		"languageCode": "default",
-		"clientId": "",
-		"latestNewsArticle": 162,
-		"launchToModpacks": false,
-		"javaVersion": "default",
-		"autoAcceptRequirements": true,
-		"javaBitness": true,
-		"launcherSettingsVersion": "1",
-		"windowType": "DEFAULT",
-		"windowWidth": 0,
-		"windowHeight": 0,
-		"enableStencilBuffer": true
-}`)
-	file.Sync()
 }
 
 func technicexe() {
