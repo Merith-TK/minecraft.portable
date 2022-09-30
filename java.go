@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -43,27 +42,27 @@ func javaexe(jarfile string) {
 		log.Fatalln("ERROR: NO JAVA FOUND, Please run minecraft atleast once through the default launcher")
 		time.Sleep(20 * time.Second)
 	} else {
-		fmt.Println(java)
+		log.Println(java)
 	}
 	cmd := exec.Command(java, "-jar", filepath.Base(jarfile), conf.Java.JavaArgs)
 	cmd.Dir = filepath.Dir(jarfile)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	fmt.Println("[MineCraftPortable] Running Launcher")
-	fmt.Println("[MineCraftPortable] Java Launcher will start Shortly")
+	log.Println("[MineCraftPortable] Running Launcher")
+	log.Println("[MineCraftPortable] Java Launcher will start Shortly")
 	//cmd.Run()
 
-	fmt.Println("[MineCraftPortable] DID NOT RUN, IN DEV MODE")
+	log.Println("[MineCraftPortable] DID NOT RUN, IN DEV MODE")
 }
 
 func locateJava() string {
 	var javaPath string
-	fmt.Println("[MineCraftPortable] Searching for Java")
-	fmt.Println("[MineCraftPortable] Use Java17:", conf.Java.UseJava17)
+	log.Println("[MineCraftPortable] Searching for Java")
+	log.Println("[MineCraftPortable] Use Java17:", conf.Java.UseJava17)
 	if conf.Java.UseJava17 {
 		for _, path := range java17Paths {
-			fmt.Println("LOCATE:", path)
+			log.Println("LOCATE:", path)
 			if _, err := os.Stat(path); err == nil {
 				javaPath = path
 				break

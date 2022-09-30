@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -66,8 +65,8 @@ func technicConfig() {
 
 func technicexe() {
 	technicVerify()
-	if _, err := os.Stat(dataDir + "/TechnicLauncher.exe"); err != nil {
-		log.Fatal("[MineCraftPortable]: ERROR, TechnicLauncher.exe Not found. Probably failed to download")
+	if _, err := os.Stat(dataDir + "/TechnicLauncher.jar"); err != nil {
+		log.Fatal("[MineCraftPortable]: ERROR, TechnicLauncher.jar Not found. Probably failed to download")
 	}
 	var java string
 	var err error
@@ -88,9 +87,9 @@ func technicexe() {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	fmt.Println("[MineCraftPortable] Running TechnicLauncher.exe")
-	fmt.Println("[MineCraftPortable] Launcher will start Shortly")
-	err = cmd.Start()
+	log.Println("[MineCraftPortable] Running TechnicLauncher.exe")
+	log.Println("[MineCraftPortable] Launcher will start Shortly")
+	err = cmd.Run()
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -99,8 +98,8 @@ func technicexe() {
 func technicVerify() {
 	err := getjson("https://api.technicpack.net/launcher/version/stable4", &technicapi)
 	if err != nil {
-		fmt.Println("Failed to PARSE json\n", err)
-		fmt.Println(technicapi)
+		log.Println("Failed to PARSE json\n", err)
+		log.Println(technicapi)
 		os.Exit(1)
 	}
 	download(dataDir+"/TechnicLauncher.jar", technicapi.URL.Jar)

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -14,12 +13,8 @@ func main() {
 
 	err := setupConfig()
 	if err != nil {
-		fmt.Println("Could not init config")
+		log.Println("Could not init config")
 		log.Println(err)
-	}
-	for k, v := range conf.Environment {
-		os.Setenv(k, v)
-		fmt.Println("ENV:", k, "=", v)
 	}
 
 	if !conf.Java.UseJava {
@@ -29,7 +24,7 @@ func main() {
 			os.Setenv("APPDATA", dataDir+"/")
 			os.Setenv("HOME", dataDir+"/")
 			if strings.Contains(strings.ToLower(conf.Launcher), "technic") {
-				fmt.Println("Launching Technic")
+				log.Println("Launching Technic")
 				technic()
 			} else {
 				unknownexe(conf.Launcher, conf.LauncherArgs)
@@ -37,7 +32,7 @@ func main() {
 		}
 	}
 	if conf.Java.UseJava {
-		fmt.Println("running java")
+		log.Println("running java")
 		javaexe(conf.Launcher)
 	}
 }

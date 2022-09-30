@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 )
@@ -27,8 +27,8 @@ type release struct {
 func filecheck(filename string) {
 	err := getjson("https://raw.githubusercontent.com/Merith-TK/minecraft.portable/master/assets/launchers.json", &rel)
 	if err != nil {
-		fmt.Println("Failed to PARSE json\n", err)
-		fmt.Println(rel)
+		log.Println("Failed to PARSE json\n", err)
+		log.Println(rel)
 		os.Exit(1)
 	}
 	for k, v := range rel.Official {
@@ -54,7 +54,7 @@ func getjson(url string, target interface{}) error {
 
 func download(fileName string, URL string) error {
 	//Get the response bytes from the url
-	fmt.Println(fileName, "\n", URL)
+	log.Println(fileName, "\n", URL)
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		response, err := http.Get(URL)
 		if err != nil {

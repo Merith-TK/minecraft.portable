@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -21,8 +20,8 @@ func minecraftexe() {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	fmt.Println("[MineCraftPortable] Running Launcher")
-	fmt.Println("[MineCraftPortable] MineCraft will start Shortly")
+	log.Println("[MineCraftPortable] Running Launcher")
+	log.Println("[MineCraftPortable] MineCraft will start Shortly")
 	cmd.Run()
 }
 
@@ -43,7 +42,7 @@ func unknownexe(execute string, args string) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	fmt.Println("[MineCraftPortable] Running " + execute)
-	fmt.Println("[MineCraftPortable] Launcher will start Shortly")
+	log.Println("[MineCraftPortable] Running " + execute)
+	log.Println("[MineCraftPortable] Launcher will start Shortly")
 	cmd.Run()
 }
