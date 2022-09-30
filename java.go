@@ -49,33 +49,42 @@ func javaexe(jarfile string) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	log.Println("[MineCraftPortable] Running Launcher")
-	log.Println("[MineCraftPortable] Java Launcher will start Shortly")
+	log.Println("[Java] Running Launcher")
+	log.Println("[Java] Java Launcher will start Shortly")
 	//cmd.Run()
 
 	log.Println("[MineCraftPortable] DID NOT RUN, IN DEV MODE")
 }
 
 func locateJava() string {
+	log.Println("[Java]: Locating JavaRuntime")
+	log.Println("[Java]: PortableRuntime", conf.Java.UsePortableJava)
+	log.Println("[Java] Searching for Java")
 	var javaPath string
-	log.Println("[MineCraftPortable] Searching for Java")
-	log.Println("[MineCraftPortable] Use Java17:", conf.Java.UseJava17)
-	if conf.Java.UseJava17 {
-		for _, path := range java17Paths {
-			log.Println("LOCATE:", path)
-			if _, err := os.Stat(path); err == nil {
-				javaPath = path
-				break
+	if conf.Java.UsePortableJava {
+		if conf.Java.UseJava17 {
+			for _, path := range java17Paths {
+				log.Println("LOCATE:", path)
+				if _, err := os.Stat(path); err == nil {
+					javaPath = path
+					break
+				}
+			}
+		} else {
+			for _, path := range java8Paths {
+				java, _ := filepath.Abs(path)
+				if _, err := os.Stat(java); err == nil {
+					javaPath = java
+					break
+				}
 			}
 		}
 	} else {
-		for _, path := range java8Paths {
-			java, _ := filepath.Abs(path)
-			if _, err := os.Stat(java); err == nil {
-				javaPath = java
-				break
-			}
+		java, err := exec.LookPath("java")
+		if err != nil {
+			log.Fatalln("[Java]: NO JAVA INSTALLED")
 		}
+		javaPath = java
 	}
 	return javaPath
 }

@@ -45,9 +45,7 @@ func setDefaultConfig() {
 
 func setupConfig() error {
 	if _, err := os.Stat(configfile); os.IsNotExist(err) {
-		log.Println("[MineCraftPortable] No config found, creating default config")
-		log.Println("[MineCraftPortable] Default config:", configfile)
-		log.Println("[MineCraftPortable] Default data:", dataDir)
+		log.Println("[Config] No config file found, creating default config")
 		f, err := os.Create(configfile)
 		if err != nil {
 			return err
@@ -57,18 +55,14 @@ func setupConfig() error {
 		// write config file
 		f.Close()
 	} else {
-		log.Println("[MineCraftPortable] Config found, loading config")
-		log.Println("[MineCraftPortable] Config:", configfile)
-		log.Println("[MineCraftPortable] Data:", dataDir)
+		log.Println("[Config] loading config")
 		_, err := toml.DecodeFile(configfile, &conf)
 		if err != nil {
 			return err
 		}
 	}
 
-	log.Println("[MineCraftPortable] Config:")
 	setupEnvironment()
-	log.Println(conf)
 	return nil
 }
 
@@ -92,6 +86,7 @@ func setupEnvironment() {
 		}
 	}
 
+	log.Println("[Config] Loading Environment Variables")
 	// Replace Environment Variables
 	for k, v := range conf.Environment {
 		for key, value := range configEnvReplace {
@@ -100,8 +95,7 @@ func setupEnvironment() {
 				v = filepath.ToSlash(v)
 			}
 		}
-		log.Println("[MineCraftPortable] Setting Environment Variable:", k, "=", v)
+		log.Println("	ENV:", k, "=", v)
 		os.Setenv(k, v)
-
 	}
 }

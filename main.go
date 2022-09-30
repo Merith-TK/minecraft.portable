@@ -7,14 +7,17 @@ import (
 )
 
 func main() {
+	log.Println("[Main] Starting")
 	if _, err := os.Stat(dataDir); err != nil {
+		log.Println("[Main] Creating data directory")
 		os.Mkdir(dataDir, 0755)
 	}
-
+	log.Println("[Main] Loading config")
 	err := setupConfig()
 	if err != nil {
-		log.Println("Could not init config")
+		log.Println("[Main] [Error] Could not init config")
 		log.Println(err)
+		os.Exit(1)
 	}
 
 	if !conf.Java.UseJava {
@@ -24,7 +27,7 @@ func main() {
 			os.Setenv("APPDATA", dataDir+"/")
 			os.Setenv("HOME", dataDir+"/")
 			if strings.Contains(strings.ToLower(conf.Launcher), "technic") {
-				log.Println("Launching Technic")
+				log.Println("[Technic] Launching Technic")
 				technic()
 			} else {
 				unknownexe(conf.Launcher, conf.LauncherArgs)

@@ -50,15 +50,7 @@ func technicexe() {
 	}
 	var java string
 	var err error
-	if !conf.Java.UsePortableJava {
-		java, err = exec.LookPath("java")
-		if err != nil {
-			log.Fatalln("ERROR: NO JAVA INSTALLED, Using Portable Runtime")
-			java = locateJava()
-		}
-	} else {
-		java = locateJava()
-	}
+	java = locateJava()
 	err = nil
 	java = filepath.ToSlash(java)
 	javaPath := filepath.ToSlash(filepath.Dir(java))
@@ -67,8 +59,8 @@ func technicexe() {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	log.Println("[MineCraftPortable] Running TechnicLauncher.exe")
-	log.Println("[MineCraftPortable] Launcher will start Shortly")
+	log.Println("[Technic] Running TechnicLauncher")
+	log.Println("[Technic] Launcher will start Shortly")
 	err = cmd.Run()
 	if err != nil {
 		log.Fatalln(err)

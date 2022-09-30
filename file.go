@@ -54,7 +54,7 @@ func getjson(url string, target interface{}) error {
 
 func download(fileName string, URL string) error {
 	//Get the response bytes from the url
-	log.Println(fileName, "\n", URL)
+	log.Println("[Download] Downloading", fileName)
 	if _, err := os.Stat(fileName); os.IsNotExist(err) {
 		response, err := http.Get(URL)
 		if err != nil {

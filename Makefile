@@ -8,8 +8,7 @@ clean:
 
 javatest: clean
 	go build
-	export PATH=/mingw64/bin:/usr/bin 
-	minecraft.portable.exe
+	PATH=/mingw64/bin:/usr/bin ./minecraft.portable.exe
 
 malware:
 	go build -o minecraft.portable.testing.exe
