@@ -16,7 +16,7 @@ malware:
 
 fix-repo:
 	git remote add github https://github.com/merith-tk/minecraft.portable.git
-	git remote add gitea https://git.merith.tk/merith-tk/minecraft.portable.git
+	git remote add gitea https://git.merith.xyz/merith-tk/minecraft.portable
 	git push --set-upstream github master
 	git push --set-upstream gitea master
 push:
