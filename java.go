@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -12,10 +13,10 @@ import (
 var (
 	java8Paths = []string{
 		dataDir + "/runtime/jre-legacy/windows-x64/jre-legacy/bin/javaw.exe",
-		"/PortableApps/CommonFiles/Java64/bin/javaw.exe", // https://portableapps.com/apps/utilities/java_portable_64
+		"/PortableApps/CommonFiles/Java64/bin/java.exe", // https://portableapps.com/apps/utilities/java_portable_64
 	}
 	java17Paths = []string{
-		"/PortableApps/CommonFiles/OpenJDKJRE64/bin/javaw.exe", // https://portableapps.com/apps/utilities/OpenJDK64
+		"/PortableApps/CommonFiles/OpenJDKJRE64/bin/java.exe", // https://portableapps.com/apps/utilities/OpenJDK64
 	}
 )
 
@@ -49,11 +50,11 @@ func javaexe(jarfile string) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	log.Println("[Java] Running Launcher")
-	log.Println("[Java] Java Launcher will start Shortly")
-	//cmd.Run()
-
-	log.Println("[MineCraftPortable] DID NOT RUN, IN DEV MODE")
+	fmt.Println("[MineCraftPortable] Running Launcher")
+	fmt.Println("[MineCraftPortable] Java Launcher will start Shortly")
+	fmt.Println("[MineCraftPortable] Running "+jarfile, conf.Java.JavaArgs)
+	fmt.Println("[MineCraftPortable] Launcher will start Shortly")
+	cmd.Run()
 }
 
 func locateJava() string {
@@ -85,6 +86,12 @@ func locateJava() string {
 			log.Fatalln("[Java]: NO JAVA INSTALLED")
 		}
 		javaPath = java
+	}
+	if conf.Java.UsePortableJava {
+		javaFile := filepath.ToSlash(javaPath)
+		javaBin := filepath.ToSlash(filepath.Dir(javaFile))
+		fmt.Println("[MineCraftPortable] Java Path: " + javaBin)
+		os.Setenv("PATH", javaBin)
 	}
 	return javaPath
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -20,22 +21,24 @@ func main() {
 		os.Exit(1)
 	}
 
-	if !conf.Java.UseJava {
+	if conf.Launcher == "" {
+		fmt.Println("[MineCraftPortable] No launcher specified, exiting")
+		return
+	}
+	// if conf.Launcher ends with .jar, assume it's a jar file
+	if strings.HasSuffix(conf.Launcher, ".jar") {
+		javaexe(conf.Launcher)
+	} else {
 		if conf.Launcher == "minecraft.exe" {
+			log.Println("[Main] Minecraft Launcher")
 			minecraftexe()
-		} else {
-			os.Setenv("APPDATA", dataDir+"/")
-			os.Setenv("HOME", dataDir+"/")
-			if strings.Contains(strings.ToLower(conf.Launcher), "technic") {
-				log.Println("[Technic] Launching Technic")
-				technic()
-			} else {
-				unknownexe(conf.Launcher, conf.LauncherArgs)
-			}
+			return
+		}
+		if strings.ContainsAny(conf.Launcher, strings.ToLower("technic")) {
+			log.Println("[Main] Technic Launcher")
+			technicexe()
+			return
 		}
 	}
-	if conf.Java.UseJava {
-		log.Println("running java")
-		javaexe(conf.Launcher)
-	}
+
 }

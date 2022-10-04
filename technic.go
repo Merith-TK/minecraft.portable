@@ -65,6 +65,7 @@ func technicexe() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	javaexe("TechnicLauncher.jar")
 }
 
 func technicVerify() {

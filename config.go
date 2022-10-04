@@ -22,7 +22,6 @@ type config struct {
 	LauncherArgs string `toml:"launcherArgs"`
 	Java         struct {
 		JavaArgs        string `toml:"javaArgs"`
-		UseJava         bool   `toml:"useJava"`
 		UseJava17       bool   `toml:"useJava17"`
 		UsePortableJava bool   `toml:"usePortableJava"`
 	} `toml:"java"`
@@ -33,7 +32,6 @@ func setDefaultConfig() {
 	conf.Launcher = "minecraft.exe"
 	conf.LauncherArgs = ""
 	conf.Java.JavaArgs = ""
-	conf.Java.UseJava = false
 	conf.Java.UseJava17 = false
 	conf.Java.UsePortableJava = false
 	conf.Environment = map[string]string{
@@ -55,7 +53,7 @@ func setupConfig() error {
 		// write config file
 		f.Close()
 	} else {
-		log.Println("[Config] loading config")
+		log.Println("[Config] Found config, loading config")
 		_, err := toml.DecodeFile(configfile, &conf)
 		if err != nil {
 			return err

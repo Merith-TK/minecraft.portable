@@ -33,7 +33,7 @@ func unknownexe(execute string, args string) {
 		execute, _ = filepath.Abs(dataDir + "/" + execute)
 	}
 	if _, err := os.Stat(execute); err != nil {
-		log.Fatal("[MineCraftPortable]: ERROR", execute, "not found")
+		log.Fatal("[Unknown]: ERROR", execute, "not found")
 	}
 
 	cmdargs := strings.Split(args, " ")
@@ -42,7 +42,7 @@ func unknownexe(execute string, args string) {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
 	cmd.Stdin = os.Stdin
-	log.Println("[MineCraftPortable] Running " + execute)
-	log.Println("[MineCraftPortable] Launcher will start Shortly")
+	log.Println("[Unknown] Running "+execute, args)
+	log.Println("[Unknown] Launcher will start Shortly")
 	cmd.Run()
 }
