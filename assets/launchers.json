@@ -1,8 +1,8 @@
 {
 	"official":{
-		"minecraft.exe": "https://launcher.mojang.com/download/Minecraft.exe",
-		"minecraft.jar": "https://cdn.merith.tk/_Releases/Other/OfficialMinecraft.jar"
+		"minecraft.exe": "https://launcher.mojang.com/download/Minecraft.exe"
 	},
 	"unofficial":{
+		"skaiacraft.jar" : "https://cdn.merith.tk/_Releases/Other/skaiacraft.jar"
 	}
 }

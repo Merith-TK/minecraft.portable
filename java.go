@@ -16,11 +16,13 @@ var (
 		"/PortableApps/CommonFiles/Java64/bin/java.exe", // https://portableapps.com/apps/utilities/java_portable_64
 	}
 	java17Paths = []string{
+		dataDir + "/runtime/java-runtime-beta/windows-x64/java-runtime-beta/bin/javaw.exe",
 		"/PortableApps/CommonFiles/OpenJDKJRE64/bin/java.exe", // https://portableapps.com/apps/utilities/OpenJDK64
 	}
 )
 
 func javaexe(jarfile string) {
+	filecheck(jarfile)
 	var java string
 	var err error
 
