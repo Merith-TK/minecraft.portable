@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -32,11 +33,13 @@ func main() {
 		if conf.Launcher == "minecraft.exe" {
 			log.Println("[Main] Minecraft Launcher")
 			minecraftexe()
+			time.Sleep(15 * time.Second)
 			return
 		}
 		if strings.ContainsAny(conf.Launcher, strings.ToLower("technic")) {
 			log.Println("[Main] Technic Launcher")
 			technicexe()
+			time.Sleep(15 * time.Second)
 			return
 		}
 	}
